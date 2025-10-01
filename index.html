@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhini Vadila Sari - Portofolio Lengkap Interaktif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Palet Warna Profesional */
+        :root {
+            --primary-navy: #1C315E; /* Dark Navy Blue */
+            --accent-gold: #FFC300; /* Gold/Kuning Aksen */
+            --bg-light: #F8F9FA; /* Light Grey Background */
+            --text-dark: #343A40;
+            --secondary-blue: #4A90E2; /* Lighter Blue */
+        }
+
+        /* --- Global & Layout --- */
+        body {
+            font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: white; color: var(--text-dark);
+            line-height: 1.6; scroll-behavior: smooth; min-height: 100vh;
+        }
+        .content-page {
+            /* Membuat setiap section seolah-olah halaman penuh */
+            padding: 100px 5%; min-height: calc(100vh - 76px); display: none;
+            flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.5s ease-in-out;
+        }
+        .content-page.active { display: flex; opacity: 1; }
+        h2 {
+            text-align: center; color: var(--primary-navy); margin-bottom: 50px; font-weight: 700;
+            position: relative; padding-bottom: 10px; width: 100%;
+        }
+        h2::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 3px; background-color: var(--accent-gold); border-radius: 2px;
+        }
+
+        /* --- Header & Navigasi --- */
+        .header {
+            background-color: var(--primary-navy); color: white; padding: 18px 5%; display: flex;
+            justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header-left { display: flex; align-items: center; }
+        .header-photo {
+            width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 15px;
+            border: 2px solid var(--accent-gold); cursor: pointer; transition: transform 0.3s;
+        }
+        .header-photo:hover { transform: scale(1.1); }
+        .header h1 { margin: 0; font-size: 1.4em; font-weight: 700; color: white; }
+        .nav a {
+            color: white; text-decoration: none; margin-left: 30px; font-weight: 500;
+            transition: color 0.3s, border-bottom 0.3s; padding-bottom: 3px; cursor: pointer;
+        }
+        .nav a.active-nav { color: var(--accent-gold); border-bottom: 2px solid var(--accent-gold); }
+        .nav a:hover { color: var(--accent-gold); }
+
+        /* --- Global Content & Animation --- */
+        .animated-content {
+            opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            width: 100%; max-width: 1200px;
+        }
+        .animated-content.visible { opacity: 1; transform: translateY(0); }
+
+        /* --- HOME --- */
+        #home-page { background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%); }
+        .hero-content { max-width: 900px; margin: auto; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+        .hero-text { max-width: 60%; }
+        .hero-text h1 { font-size: 3.5em; color: var(--primary-navy); margin-top: 0; }
+        #typewriter { font-size: 1.8em; font-weight: 600; color: var(--secondary-blue); min-height: 50px; }
+        .hero-image img {
+            max-width: 320px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer; transition: all 0.5s;
+        }
+        .hero-image img:hover { transform: rotate(3deg) scale(1.05); }
+
+        /* --- ABOUT (Updated) --- */
+        #about-page { background-color: white; }
+        .about-content-body { max-width: 800px; margin: auto; text-align: left; } 
+        .about-profile { 
+            display: flex; align-items: flex-start; margin-bottom: 40px; gap: 30px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); padding: 20px; border-radius: 10px;
+        }
+        .about-profile img {
+            width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 5px solid var(--accent-gold);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); cursor: pointer; transition: transform 0.3s;
+        }
+        .about-profile img:hover { transform: scale(1.05); }
+        .about-text { flex: 1; }
+        
+        /* Carousel Styles (Dihapus) */
+        .carousel-container { display: none; }
+
+        /* --- SKILLS/KEAHLIAN --- */
+        #skills-page { background-color: var(--bg-light); }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: auto; }
+        .skill-card {
+            background: white; padding: 30px; border-radius: 10px; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s; border-top: 4px solid var(--secondary-blue);
+            cursor: pointer;
+        }
+        .skill-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+        }
+        .progress-bar-bg { background: #E9ECEF; border-radius: 5px; height: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--secondary-blue); width: 0; transition: width 1.5s ease-out; border-radius: 5px; }
+        
+        /* --- Analisis & Kapita Selekta --- */
+        .accordion { max-width: 1000px; margin: 40px auto; }
+        .accordion-item { border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); }
+        .accordion-header {
+            background-color: var(--primary-navy); color: white; padding: 18px 25px; cursor: pointer;
+            font-weight: 600; display: flex; justify-content: space-between; align-items: center;
+            border-radius: 8px; transition: background-color 0.3s;
+        }
+        .accordion-content { padding: 0 25px; background-color: white; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; }
+        .accordion-content.active { max-height: 200px; padding-top: 15px; padding-bottom: 15px;}
+
+        /* --- STRATEGIS / ANALISIS --- */
+        #strategic-page { background-color: white; }
+        .analysis-container { max-width: 1000px; margin: auto; }
+        .swot-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 60px; }
+        .swot-card {
+            padding: 25px; border-radius: 10px; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); min-height: 130px;
+        }
+        .strength { background-color: #e6f7e9; border: 1px solid #28a745; }
+        .weakness { background-color: #fcebeb; border: 1px solid #dc3545; }
+        .opportunity { background-color: #fff8e6; border: 1px solid #ffc320; }
+        .threat { background-color: #e6f3ff; border: 1px solid #007bff; }
+        
+        /* Porter Specific Styling */
+        .porter-container { 
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-top: 30px; 
+            text-align: center;
+        }
+        .porter-force {
+            background-color: var(--bg-light); border: 2px solid var(--secondary-blue);
+            padding: 20px; border-radius: 10px; width: 280px; cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .porter-force:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
+        .porter-force h5 { margin: 5px 0 0 0; color: var(--primary-navy); }
+        .porter-force p { font-size: 0.85em; margin-top: 5px; }
+
+
+        /* --- CONTACT --- */
+        #contact-page { background-color: var(--bg-light); }
+        .contact-content { max-width: 700px; margin: auto; text-align: center; }
+        .contact-item { padding: 15px; background-color: white; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); }
+
+        /* --- Footer & Modal --- */
+        footer { background-color: var(--primary-navy); color: white; text-align: center; padding: 25px 0; font-size: 0.9em; }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); }
+        .modal-content {
+            background-color: #ffffff;
+            margin: 10% auto; padding: 30px; 
+            border-radius: 12px;
+            width: 90%; max-width: 550px;
+            position: relative; 
+            animation: slideIn 0.4s;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content h4 {
+            color: var(--primary-navy);
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .close-button { 
+            color: white;
+            background-color: #dc3545;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close-button:hover { background-color: #c82333; }
+
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content { flex-direction: column; text-align: center; }
+            .hero-text { max-width: 100%; }
+            .about-profile { flex-direction: column; align-items: center; }
+            .swot-grid { grid-template-columns: 1fr; }
+            .porter-container { flex-direction: column; align-items: center; }
+            .porter-force { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-left">
+            <img src="d:\SEMESTER 5\Kapita Selekta\web kapita selekta\WhatsApp Image 2025-10-01 at 21.28.18_680380d2.jpg" alt="Dhini Profile Photo" class="header-photo" onclick="showProfileModal('d:\SEMESTER 5\Kapita Selekta\web kapita selekta\WhatsApp Image 2025-10-01 at 21.28.18_680380d2.jpg')">
+            <h1>Dhini Vadila Sari</h1>
+        </div>
+        <nav class="nav">
+            <a onclick="showPage('home-page', this)" class="active-nav">Home</a>
+            <a onclick="showPage('about-page', this)">About Me</a>
+            <a onclick="showPage('skills-page', this)">Keahlian</a>
+            <a onclick="showPage('strategic-page', this)">Analisis & Kapita Selekta</a>
+            <a onclick="showPage('contact-page', this)">Kontak</a>
+        </nav>
+    </header>
+
+    <section id="home-page" class="content-page active">
+        <div class="hero-content animated-content">
+            <div class="hero-text">
+                <h2>Mahasiswa Teknik Informatika - Universitas Lampung</h2>
+                <h1>Halo, Saya Dhini Vadila Sari</h1>
+                <div id="typewriter"></div>
+                <p style="font-size: 1.1em; color: var(--text-dark);">Fokus pada pengembangan solusi digital berbasis web dan mobile untuk menciptakan efisiensi layanan publik.</p>
+                <p><button onclick="showPage('about-page', document.querySelector('.nav a:nth-child(2)'))" style="border:none; padding: 10px 20px; background-color: var(--accent-gold); color: var(--primary-navy); text-decoration: none; border-radius: 5px; font-weight: 600; margin-top: 20px; cursor: pointer;">Pelajari Lebih Lanjut &rarr;</button></p>
+            </div>
+            <div class="hero-image">
+                <img src="d:\SEMESTER 5\Kapita Selekta\web kapita selekta\WhatsApp Image 2025-10-01 at 21.28.18_680380d2.jpg" alt="Foto Dhini Vadila Sari" onclick="showProfileModal('d:\SEMESTER 5\Kapita Selekta\web kapita selekta\WhatsApp Image 2025-10-01 at 21.28.18_680380d2.jpg')">
+            </div>
+        </div>
+    </section>
+
+    <section id="about-page" class="content-page">
+        <h2>Tentang Saya</h2>
+        <div class="about-content-body animated-content">
+            <div class="about-profile">
+                <img src="d:\SEMESTER 5\Kapita Selekta\web kapita selekta\WhatsApp Image 2025-10-01 at 21.28.18_680380d2.jpg" alt="Foto Dhini Vadila Sari" onclick="showProfileModal('d:\SEMESTER 5\Kapita Selekta\web kapita selekta\WhatsApp Image 2025-10-01 at 21.28.18_680380d2.jpg')">
+                <div class="about-text">
+                    <p>Saya adalah Dhini Vadila Sari, mahasiswa Program Studi Teknik Informatika, Universitas Lampung.</p>
+                    <p>Didorong oleh semangat digitalisasi, fokus saya adalah menciptakan sistem informasi yang unggul dari sisi fungsionalitas dan pengalaman pengguna (UX/UI). Saya terampil menggunakan metode pengembangan perangkat lunak yang terstruktur.</p>
+                    <p>Kekuatan saya sejalan dengan tren global yaitu digitalisasi berbasis web dan mobile, yang membuka peluang untuk menyediakan berbagai solusi digital inovatif.</p>
+                    <p>Visi Saya: Menjadi pengembang sistem yang mampu menjembatani kebutuhan institusi dengan teknologi terkini, menciptakan solusi yang relevan dan berdampak positif.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills-page" class="content-page">
+        <h2>Keahlian Teknis & Kompetensi</h2>
+        <div class="skills-grid animated-content">
+            <div class="skill-card animated-content" onclick="showSkillDetails('Pemrograman Web & Mobile')">
+                <h4>Pemrograman Web & Mobile</h4>
+                <p>Membangun aplikasi berbasis Laravel (web) dan React Native/Flutter (mobile) untuk berbagai jenis platform dan kebutuhan bisnis.</p>
+                <div class="progress-container"><div class="progress-bar-label">Full-Stack Development</div><div class="progress-bar-bg"><div class="progress-bar" data-percentage="90%"></div></div></div>
+            </div>
+            <div class="skill-card animated-content" onclick="showSkillDetails('Analisis & Perancangan Sistem')">
+                <h4>Analisis & Perancangan Sistem</h4>
+                <p>Menganalisis kebutuhan pengguna (user needs) dan merancang alur proses, model data, serta arsitektur sistem (UML, ERD) secara terstruktur.</p>
+                <div class="progress-container"><div class="progress-bar-label">Perancangan & Dokumentasi</div><div class="progress-bar-bg"><div class="progress-bar" data-percentage="85%"></div></div></div>
+            </div>
+            <div class="skill-card animated-content" onclick="showSkillDetails('Manajemen Basis Data')">
+                <h4>Manajemen Basis Data</h4>
+                <p>Merancang dan mengimplementasikan database yang efisien (SQL) untuk penyimpanan data, manajemen transaksi, dan informasi layanan dalam skala yang berbeda.</p>
+                <div class="progress-container"><div class="progress-bar-label">Basis Data Management</div><div class="progress-bar-bg"><div class="progress-bar" data-percentage="95%"></div></div></div>
+            </div>
+            <div class="skill-card animated-content" onclick="showSkillDetails('Rekayasa Perangkat Lunak & Testing')">
+                <h4>Rekayasa Perangkat Lunak & Testing</h4>
+                <p>Menerapkan siklus pengembangan yang disiplin, serta melakukan Software Testing (Black Box Testing dan uji Usability) untuk menjamin kualitas.</p>
+                <div class="progress-container"><div class="progress-bar-label">Metodologi & Testing</div><div class="progress-bar-bg"><div class="progress-bar" data-percentage="80%"></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="strategic-page" class="content-page">
+        <h2>Mata Kuliah Kapita Selekta & Analisis Strategis</h2>
+        
+        <div class="analysis-container animated-content">
+            <div style="max-width: 900px; margin: auto; text-align: center; margin-bottom: 40px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                <p style="font-size: 1.1em; font-weight: 500; color: var(--primary-navy);">
+                    Kapita Selekta membahas topik-topik terbaru dan krusial di bidang TI untuk memperluas wawasan dan mempersiapkan mahasiswa dalam menentukan fokus penelitian untuk Tugas Akhir/Skripsi.
+                </p>
+            </div>
+
+            <h3>Materi Pilihan Yang Ditekuni</h3>
+            <div class="accordion">
+                <div class="accordion-item"><div class="accordion-header" onclick="toggleAccordion(this)">Pengembangan Aplikasi Web & Mobile Lanjut (Real-time System)<span>&#x25B6;</span></div><div class="accordion-content"><p>Fokus pada implementasi full-stack modern, optimasi kinerja aplikasi berbasis Laravel dan Flutter/React Native, serta isu arsitektur real-time.</p></div></div>
+                <div class="accordion-item"><div class="accordion-header" onclick="toggleAccordion(this)">Digitalisasi Layanan Publik (E-Government & Fintech)<span>&#x25B6;</span></div><div class="accordion-content"><p>Mempelajari tantangan dan peluang transformasi digital di sektor publik dan perbankan, termasuk aspek keamanan data dan UX layanan publik.</p></div></div>
+                <div class="accordion-item"><div class="accordion-header" onclick="toggleAccordion(this)">Analisis Persiapan Skripsi/KP (SWEBOK & Metodologi)<span>&#x25B6;</span></div><div class="accordion-content"><p>Memahami area inti SWEBOK (Software Requirements, Design, Construction, Testing) yang relevan untuk proyek akhir dan penerapan metodologi pengembangan terstruktur.</p></div></div>
+            </div>
+
+            <h3 style="margin-top: 60px;">SWOT Analysis (Kesiapan Diri Sendiri)</h3>
+            <div class="swot-grid">
+                <div class="swot-card strength" data-type="strength" onclick="showDetails(this)"><h4>Kekuatan (Strengths) 💡</h4><p>Menguasai dasar pemrograman web/mobile & database.</p></div>
+                <div class="swot-card weakness" data-type="weakness" onclick="showDetails(this)"><h4>Kelemahan (Weaknesses) 🚧</h4><p>Pengalaman terbatas dalam integrasi realtime.</p></div>
+                <div class="swot-card opportunity" data-type="opportunity" onclick="showDetails(this)"><h4>Peluang (Opportunities) 🚀</h4><p>Tren digitalisasi layanan publik & perbankan mendukung.</p></div>
+                <div class="swot-card threat" data-type="threat" onclick="showDetails(this)"><h4>Ancaman (Threats) 🛡️</h4><p>Potensi kompetisi dengan sistem serupa yang sudah ada.</p></div>
+            </div>
+
+            <h3 style="margin-top: 60px;">Porter's Five Forces (Lingkungan Akademik)</h3>
+            <div class="porter-container">
+                <div class="porter-force" data-type="rivalry" onclick="showDetails(this)"><h5>1. Persaingan Antar Mahasiswa</h5><p>Rivalry Among Competitors</p></div>
+                <div class="porter-force" data-type="new_entrants" onclick="showDetails(this)"><h5>2. Ancaman Pendatang Baru</h5><p>Threat of New Entrants</p></div>
+                <div class="porter-force" data-type="buyers" onclick="showDetails(this)"><h5>3. Daya Tawar Penguji</h5><p>Bargaining Power of Buyers</p></div>
+                <div class="porter-force" data-type="suppliers" onclick="showDetails(this)"><h5>4. Daya Tawar Pembimbing</h5><p>Bargaining Power of Suppliers</p></div>
+                <div class="porter-force" data-type="substitutes" onclick="showDetails(this)"><h5>5. Ancaman Produk Pengganti</h5><p>Threat of Substitutes</p></div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="contact-page" class="content-page">
+        <h2>Hubungi Saya</h2>
+        <div class="contact-content animated-content">
+            <p style="font-size: 1.1em; margin-bottom: 40px;">Saya terbuka untuk diskusi, kolaborasi proyek, atau kesempatan magang/kerja. Silakan hubungi saya melalui jalur komunikasi berikut:</p>
+            
+            <div class="contact-item">
+                <h4 style="color: var(--primary-navy);">Email Akademik</h4>
+                <p style="font-size: 1.2em; font-weight: 600;">2315061048@student.unila.ac.id</p>
+            </div>
+            
+            <div class="contact-item">
+                <h4 style="color: var(--primary-navy);">Profil Profesional</h4>
+                <p style="font-size: 1.1em;">
+                    <a href="#" style="color: var(--secondary-blue); text-decoration: none; margin: 0 15px;">LinkedIn</a> | 
+                    <a href="#" style="color: var(--secondary-blue); text-decoration: none; margin: 0 15px;">GitHub</a>
+                </p>
+                <p style="font-size: 0.9em; margin-top: 10px;">*(Klik tautan di atas untuk melihat profil)*</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Dhini Vadila Sari. Teknik Informatika, Universitas Lampung.</p>
+    </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modal-title"></h4>
+                <button class="close-button" onclick="closeModal()">&#x2715;</button>
+            </div>
+            <p id="modal-text"></p>
+        </div>
+    </div>
+
+    <script>
+        // Data untuk Modal (SWOT dan Porter)
+        const strategicData = {
+            strength: { title: "Kekuatan (Strengths)", text: "Menguasai dasar pemrograman web (Laravel) dan mobile (Flutter/React Native) serta database. Ini menjadi modal utama untuk implementasi solusi digital." },
+            weakness: { title: "Kelemahan (Weaknesses)", text: "Pengalaman terbatas dalam mengintegrasikan sistem agar berjalan secara real-time. Ini perlu ditingkatkan melalui studi teknologi seperti WebSocket atau Firebase." },
+            opportunity: { title: "Peluang (Opportunities)", text: "Tren digitalisasi layanan publik dan perbankan sangat tinggi. Proyek ini sangat relevan dengan kebutuhan industri saat ini." },
+            threat: { title: "Ancaman (Threats)", text: "Potensi kompetisi dengan sistem antrian generik atau sistem serupa yang sudah ada. Kualitas UI/UX dan fitur real-time harus menjadi pembeda." },
+            rivalry: { title: "Persaingan Antar Mahasiswa", text: "Banyak mahasiswa mengambil topik web/mobile. Saya harus menghadirkan inovasi, fitur unik, dan kualitas implementasi yang lebih baik." },
+            new_entrants: { title: "Ancaman Pendatang Baru", text: "Sistem saya harus memiliki keunggulan kompetitif, metodologi terstruktur, dan dokumentasi lengkap agar tidak mudah ditiru." },
+            buyers: { title: "Daya Tawar Penguji", text: "Penguji menilai kelayakan proyek. Saya harus memastikan penguasaan teori, metodologi, dan implementasi yang sempurna untuk memenuhi standar akademik tertinggi." },
+            suppliers: { title: "Daya Tawar Pembimbing", text: "Dosen pembimbing memberikan arahan dan sumber daya ilmu. Kunci kelancaran adalah menjalin komunikasi baik dan siap menerima masukan/perbaikan untuk hasil maksimal." },
+            substitutes: { title: "Ancaman Produk Pengganti", text: "Sistem antrian manual masih digunakan. Sistem saya harus unggul dalam fleksibilitas, monitoring realtime, dan kemudahan integrasi dengan layanan bank/institusi." }
+        };
+        
+        // Data Detail Keahlian
+        const skillDetails = {
+            'Pemrograman Web & Mobile': 'Saya memiliki kemampuan mendalam dalam membangun aplikasi lintas platform menggunakan framework modern seperti Laravel untuk backend dan React Native/Flutter untuk mobile, memastikan solusi yang efisien dan responsif.',
+            'Analisis & Perancangan Sistem': 'Keahlian ini mencakup analisis mendalam terhadap kebutuhan pengguna dan perancangan arsitektur sistem (UML, ERD) untuk menghasilkan blueprint pengembangan perangkat lunak yang solid.',
+            'Manajemen Basis Data': 'Saya mampu merancang dan mengelola basis data (SQL) yang scalable, efisien, dan aman, yang merupakan fondasi penting bagi setiap aplikasi digital.',
+            'Rekayasa Perangkat Lunak & Testing': 'Fokus pada penerapan prinsip-prinsip rekayasa perangkat lunak untuk memastikan kualitas sistem, termasuk kemampuan melakukan berbagai jenis pengujian (Black Box, Usability) secara sistematis.'
+        };
+
+        // Fungsi untuk menampilkan detail keahlian
+        function showSkillDetails(skillName) {
+            document.getElementById('modal-title').innerText = skillName;
+            document.getElementById('modal-text').innerText = skillDetails[skillName] || "Detail tidak ditemukan.";
+            document.getElementById('modal').style.display = 'block';
+        }
+
+
+        // --- Navigasi Halaman (SPA Logic) ---
+        function showPage(pageId, navElement) {
+            document.querySelectorAll('.content-page').forEach(page => { page.classList.remove('active'); });
+            document.querySelectorAll('.nav a').forEach(nav => { nav.classList.remove('active-nav'); });
+
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                if (navElement) { navElement.classList.add('active-nav'); }
+                resetAnimations();
+                window.scrollTo(0, 0); 
+            }
+        }
+
+        // --- Progress Bar & Animation Logic (Shared) ---
+        function activateProgressBars() {
+            const bars = document.querySelectorAll('#skills-page .progress-bar');
+            bars.forEach(bar => {
+                const percentage = bar.getAttribute('data-percentage');
+                bar.style.width = percentage;
+            });
+        }
+
+        function resetAnimations() {
+            document.querySelectorAll('.animated-content').forEach(element => {
+                element.classList.remove('visible');
+            });
+            document.querySelectorAll('.content-page.active .animated-content').forEach(element => {
+                observer.observe(element);
+            });
+        }
+        
+        // Fungsionalitas Typewriter Effect
+        function setupTypewriter(elementId) {
+            const typewriterText = ["Web Developer", "Mobile Developer", "Database Enthusiast", "Digitalisasi Layanan Publik"];
+            const typewriterElement = document.getElementById(elementId);
+            if (!typewriterElement) return;
+            let textIndex = 0; let charIndex = 0;
+            function type() {
+                if (textIndex < typewriterText.length) {
+                    const currentText = typewriterText[textIndex];
+                    if (charIndex < currentText.length) {
+                        typewriterElement.innerHTML += currentText.charAt(charIndex); charIndex++; setTimeout(type, 100);
+                    } else { setTimeout(erase, 1500); }
+                }
+            }
+            function erase() {
+                const currentText = typewriterText[textIndex];
+                if (charIndex > 0) {
+                    typewriterElement.innerHTML = currentText.substring(0, charIndex - 1); charIndex--; setTimeout(erase, 50);
+                } else {
+                    textIndex++; if (textIndex >= typewriterText.length) { textIndex = 0; } setTimeout(type, 500);
+                }
+            }
+            type();
+        }
+
+        // Intersection Observer
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.closest('#skills-page')) { activateProgressBars(); }
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Fungsionalitas Modal (SWOT/Porter/Profile)
+        function showDetails(element) {
+            const type = element.getAttribute('data-type');
+            const data = strategicData[type];
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-text').innerText = data.text;
+            document.getElementById('modal').style.display = 'block';
+        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) { closeModal(); }
+        }
+        function showProfileModal(photoSrc) {
+            document.getElementById('modal-title').innerText = "Dhini Vadila Sari";
+            document.getElementById('modal-text').innerHTML = 
+                `<img src="${photoSrc}" style="width:100%; max-width:250px; display:block; margin:10px auto; border-radius:10px;"/>
+                 <p style="text-align:center;">Mahasiswa Teknik Informatika - Fokus pada solusi Web & Mobile. <br>
+                 (NPM: 2315061048)</p>`;
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        // Fungsionalitas Accordion
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isOpen = content.classList.contains('active');
+            document.querySelectorAll('.accordion-content.active').forEach(item => {
+                item.classList.remove('active');
+                item.style.maxHeight = '0';
+                item.previousElementSibling.querySelector('span').style.transform = 'rotate(0deg)';
+            });
+            if (!isOpen) {
+                content.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + 30 + "px";
+                header.querySelector('span').style.transform = 'rotate(90deg)';
+            }
+        }
+
+        // Inisialisasi pada load
+        document.addEventListener('DOMContentLoaded', () => {
+            setupTypewriter('typewriter');
+            showPage('home-page', document.querySelector('.nav a:first-child')); 
+        });
+
+    </script>
+</body>
+</html>
